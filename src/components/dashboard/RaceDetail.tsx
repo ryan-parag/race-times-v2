@@ -55,6 +55,7 @@ export function RaceDetail({
           <p className="text-sm font-medium uppercase tracking-wide text-gray-500 tabular-nums">
             {displayDate}
           </p>
+          
           <p className="mt-0.5 text-xs font-medium uppercase tracking-wider text-gray-400">
             {meeting.officialName}
           </p>
@@ -100,7 +101,7 @@ export function RaceDetail({
                   </div>
                   <div className="flex items-center gap-4 tabular-nums">
                     {session.status === 'completed' && (
-                      <Button
+                      <a
                         render={<a />}
                         nativeButton={false}
                         href={`https://www.formula1.com/en/results.html`}
@@ -109,7 +110,7 @@ export function RaceDetail({
                         className="flex items-center justify-center h-10 px-3.5 m-0 outline-0 border border-gray-200 rounded-md bg-gray-50 font-inherit text-base font-medium leading-6 text-gray-900 select-none hover:data-[disabled]:bg-gray-50 hover:bg-gray-100 active:data-[disabled]:bg-gray-50 active:bg-gray-200 active:shadow-[inset_0_1px_3px_rgba(0,0,0,0.1)] active:border-t-gray-300 active:data-[disabled]:shadow-none active:data-[disabled]:border-t-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-800 focus-visible:-outline-offset-1 data-[disabled]:text-gray-500"
                       >
                         View results
-                      </Button>
+                      </a>
                     )}
                     {session.status === 'upcoming' && session.localTime && (
                       <span className="text-sm text-gray-600">{session.localTime}</span>
