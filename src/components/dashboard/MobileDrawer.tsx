@@ -55,7 +55,7 @@ export function MobileDrawer({
         aria-label={title ?? 'Schedule'}
       >
         <div className="flex h-14 items-center justify-between border-b border-gray-200 px-4">
-          <span className="font-semibold text-gray-900">{title ?? 'Schedule'}</span>
+          <span className="text-gray-900">{title ?? 'Schedule'}</span>
           <button
             type="button"
             onClick={() => setOpen(false)}

@@ -1,23 +1,40 @@
 @import "tailwindcss";
 
+/* PPNikkeiPacific – local font from public/fonts (use the extension you have) */
+@font-face {
+  font-family: "PP Nikkei Pacific";
+  src:
+    url("/fonts/PPNikkeiPacific-Regular.woff2") format("woff2"),
+    url("/fonts/PPNikkeiPacific-Regular.woff") format("woff"),
+    url("/fonts/PPNikkeiPacific-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
   --f1-red: #E10600;
+  --font-nikkei: "PP Nikkei Pacific", ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-f1-red: var(--f1-red);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-nikkei);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-nikkei);
+}
+
+/* Headers and titles use normal weight */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
 }
 
 /* 8px grid; tabular numbers for dates/times */

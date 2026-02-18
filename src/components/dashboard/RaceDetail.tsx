@@ -2,7 +2,8 @@
 
 import type { Meeting } from '@/types/f1';
 import { StatusBadge } from '@/components/ui/StatusBadge';
-import Image from 'next/image';
+import { CountryFlag } from '@/components/ui/CountryFlag';
+import { Button } from '@base-ui/react/button';
 
 type SessionWithStatus = {
   sessionKey: number;
@@ -31,7 +32,7 @@ export function RaceDetail({
 }) {
   if (!meeting) {
     return (
-      <main className="flex flex-1 flex-col items-center justify-center gap-4 bg-gray-50 p-8 text-gray-500">
+      <main className="flex min-h-0 flex-1 flex-col items-center justify-center gap-4 overflow-auto bg-gray-50 p-8 text-gray-500">
         <p className="text-lg">Select a race from the schedule.</p>
       </main>
     );
@@ -40,7 +41,7 @@ export function RaceDetail({
   const displayDate = formatDetailDate(meeting.dateEnd);
 
   return (
-    <main className="relative flex flex-1 flex-col overflow-auto bg-gray-50">
+    <main className="relative flex min-h-0 flex-1 flex-col overflow-auto bg-gray-50">
       {/* Subtle background image - circuit/track vibe */}
       {meeting.circuitImage && (
         <div
@@ -49,7 +50,7 @@ export function RaceDetail({
           aria-hidden
         />
       )}
-      <div className="relative flex flex-1 flex-col p-6 md:p-8">
+      <div className="relative flex flex-col p-6 md:p-8">
         <header className="mb-8">
           <p className="text-sm font-medium uppercase tracking-wide text-gray-500 tabular-nums">
             {displayDate}
@@ -58,21 +59,13 @@ export function RaceDetail({
             {meeting.officialName}
           </p>
           <div className="mt-2 flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
+            <h1 className="text-2xl text-gray-900 md:text-3xl">
               {meeting.name}
             </h1>
-            {meeting.countryFlag && (
-              <span className="relative inline-block size-8 overflow-hidden rounded">
-                <Image
-                  src={meeting.countryFlag}
-                  alt=""
-                  width={32}
-                  height={32}
-                  className="object-cover"
-                  unoptimized
-                />
-              </span>
-            )}
+            <div className="inline-flex relative bg-white rounded-md over-flow-hidden border border-gray-300 shadow-xs">
+              <CountryFlag countryCode={meeting.countryCode} size={40} />
+              <span className="absolute top-0 right-0 left-0 bottom-0 bg-gradient-to-b from-transparent to-white/50"/>
+            </div>
           </div>
           {nextSession && (
             <p className="mt-4 flex items-center gap-2 text-sm text-gray-600">
@@ -86,7 +79,7 @@ export function RaceDetail({
         </header>
 
         <section>
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">Sessions</h2>
+          <h2 className="mb-4 text-lg text-gray-900">Sessions</h2>
           {loading ? (
             <div className="flex items-center gap-2 text-gray-500">
               <span className="inline-block size-4 animate-spin rounded-full border-2 border-gray-300 border-t-[#E10600]" />
@@ -107,14 +100,16 @@ export function RaceDetail({
                   </div>
                   <div className="flex items-center gap-4 tabular-nums">
                     {session.status === 'completed' && (
-                      <a
+                      <Button
+                        render={<a />}
+                        nativeButton={false}
                         href={`https://www.formula1.com/en/results.html`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm font-medium text-[#E10600] hover:underline"
+                        className="flex items-center justify-center h-10 px-3.5 m-0 outline-0 border border-gray-200 rounded-md bg-gray-50 font-inherit text-base font-medium leading-6 text-gray-900 select-none hover:data-[disabled]:bg-gray-50 hover:bg-gray-100 active:data-[disabled]:bg-gray-50 active:bg-gray-200 active:shadow-[inset_0_1px_3px_rgba(0,0,0,0.1)] active:border-t-gray-300 active:data-[disabled]:shadow-none active:data-[disabled]:border-t-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-800 focus-visible:-outline-offset-1 data-[disabled]:text-gray-500"
                       >
                         View results
-                      </a>
+                      </Button>
                     )}
                     {session.status === 'upcoming' && session.localTime && (
                       <span className="text-sm text-gray-600">{session.localTime}</span>

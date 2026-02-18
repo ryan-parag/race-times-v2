@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
+import { SidebarProvider } from "@/contexts/SidebarContext";
 
 export const metadata: Metadata = {
   title: "F1 Race Times | Schedule Dashboard",
@@ -19,9 +13,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-gray-50 text-gray-900 antialiased isolate">
-        {children}
+    <html lang="en">
+      <body className="min-h-screen bg-gray-50 text-gray-900 antialiased isolate font-sans">
+        <SidebarProvider>{children}</SidebarProvider>
       </body>
     </html>
   );

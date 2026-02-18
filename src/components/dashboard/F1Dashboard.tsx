@@ -39,7 +39,7 @@ function DashboardInner({
   return (
     <>
       {/* Mobile: header with Schedule button */}
-      <div className="flex items-center justify-between gap-2 border-b border-gray-200 bg-white px-4 py-3 md:hidden">
+      <div className="flex shrink-0 items-center justify-between gap-2 border-b border-gray-200 bg-white px-4 py-3 md:hidden">
         <button
           type="button"
           onClick={() => setDrawerOpen(true)}
@@ -62,8 +62,9 @@ function DashboardInner({
         />
       </MobileDrawer>
 
-      <div className="flex h-full min-h-screen w-full">
-        <div className="hidden w-80 shrink-0 md:block">
+      <div className="flex min-h-0 flex-1 w-full">
+        {/* Desktop: race list sidebar (always visible, scrolls independently) */}
+        <div className="hidden h-full w-80 shrink-0 flex-col overflow-hidden md:flex">
           <RaceList
             meetings={meetings}
             activeMeetingKey={activeMeetingKey}
@@ -73,7 +74,8 @@ function DashboardInner({
             YearSelectorComponent={YearSelector}
           />
         </div>
-        <div className="flex flex-1 flex-col min-w-0">
+        {/* Content section (scrolls independently) */}
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           <RaceDetail
             meeting={activeMeeting}
             sessions={activeSessions}

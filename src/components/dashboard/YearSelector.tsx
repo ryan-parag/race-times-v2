@@ -25,7 +25,7 @@ export function YearSelector({
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger
         ref={triggerRef}
-        className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#E10600] focus:ring-offset-2"
+        className="cursor-pointer flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#E10600] focus:ring-offset-2"
       >
         {year}
         <ChevronDownIcon className="size-4 text-gray-500" />

@@ -1,6 +1,7 @@
 import { fetchMeetings } from '@/lib/f1-api';
 import { F1Dashboard } from '@/components/dashboard/F1Dashboard';
 import { NavRail } from '@/components/layout/NavRail';
+import { ContentArea } from '@/components/layout/ContentArea';
 
 type PageProps = {
   searchParams: Promise<{ year?: string }>;
@@ -14,9 +15,9 @@ export default async function Home({ searchParams }: PageProps) {
   return (
     <>
       <NavRail />
-      <div className="pl-16">
+      <ContentArea>
         <F1Dashboard key={year} initialMeetings={meetings} year={year} />
-      </div>
+      </ContentArea>
     </>
   );
 }
