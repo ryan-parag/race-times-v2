@@ -102,8 +102,6 @@ export function RaceDetail({
                   <div className="flex items-center gap-4 tabular-nums">
                     {session.status === 'completed' && (
                       <a
-                        render={<a />}
-                        nativeButton={false}
                         href={`https://www.formula1.com/en/results.html`}
                         target="_blank"
                         rel="noopener noreferrer"
