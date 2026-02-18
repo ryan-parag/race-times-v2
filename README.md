@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# F1 Race Times — Schedule Dashboard
+
+A high-performance, typography-focused F1 schedule dashboard built with **Next.js 14+ (App Router)**, **Base UI**, and **Tailwind CSS**. Data is sourced from the [OpenF1 API](https://openf1.org).
+
+## Features
+
+- **3-column master-detail layout**: 64px nav rail, 320px race list sidebar, main detail view
+- **Race list**: Round, country flag, GP name, date (e.g. MAR 16), and status (Completed / Not yet started)
+- **Detail view**: Circuit header, “Up next” session, chronological sessions list with local times or “View results”
+- **Year selector**: Base UI Popover for 2024–2026
+- **Responsive**: Single-column on mobile with a slide-out drawer for the race list
+
+## Tech Stack
+
+- **Next.js 16** (App Router), TypeScript, Tailwind CSS v4
+- **Base UI** (`@base-ui/react`) for unstyled Popover (year selector)
+- **OpenF1 API**: `meetings?year=` and `sessions?meeting_key=`
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). The default year is 2025; change it via the year dropdown. Select a race in the sidebar to load sessions and see “Up next” and session times.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/app/` — App Router layout and page (server-rendered list fetch)
+- `src/components/dashboard/` — F1Dashboard, RaceList, RaceDetail, YearSelector, MobileDrawer
+- `src/components/ui/` — Card, StatusBadge (Tailwind-styled)
+- `src/lib/f1-api.ts` — OpenF1 fetch and normalization
+- `src/hooks/useF1Data.ts` — Client state and session loading
 
-## Learn More
+## Design
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Aesthetic**: International typographic style; white/light gray background; F1 red (`#E10600`) as accent
+- **Typography**: Inter, bold for GP titles, tabular numbers for dates/times
+- **Spacing**: 8px grid; generous padding (e.g. p-4, p-6) in cards and detail
