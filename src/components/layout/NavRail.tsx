@@ -64,7 +64,6 @@ export function NavRail() {
       </nav>
       <div className="border-t border-zinc-200 p-2">
         <Button
-          variant="ghost"
           onClick={() => setNavRailExpanded(!navRailExpanded)}
           className="transiton cursor-pointer absolute top-4 -right-4 rounded-full w-8 h-8 inline-flex items-center justify-center bg-white border-zinc-100 shadow-sm z-10 hover:bg-zinc-100 text-zinc-500 hover:text-zinc-800"
           aria-label={navRailExpanded ? 'Collapse navigation' : 'Expand navigation'}
