@@ -28,14 +28,25 @@ interface OpenF1Driver {
 }
 
 const OPENF1_BASE = 'https://api.openf1.org/v1';
+const OPENF1_API_KEY = process.env.OPENF1_API_KEY;
 
 const fetchWithTimeout = async (url: string, options?: RequestInit, timeoutMs: number = 10000) => {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
   try {
+    const headers: Record<string, string> = {
+      'User-Agent': 'Mozilla/5.0 (compatible; F1RaceTimes/1.0)',
+      ...((options?.headers as Record<string, string>) || {}),
+    };
+    
+    if (OPENF1_API_KEY) {
+      headers['X-API-Key'] = OPENF1_API_KEY;
+    }
+    
     return await fetch(url, {
       ...options,
       signal: controller.signal,
+      headers,
     });
   } finally {
     clearTimeout(timeoutId);
@@ -48,6 +59,15 @@ export async function fetchMeetings(year: number): Promise<Meeting[]> {
       next: { revalidate: 3600 },
     });
     if (!res.ok) {
+      if (res.status === 401) {
+        const message = await res.text();
+        if (message.includes('Live F1 session in progress')) {
+          throw new Error(
+            'API temporarily restricted during live F1 session. Historical data will be available after the session ends. ' +
+            'For immediate access, get a free API key at https://openf1.org'
+          );
+        }
+      }
       throw new Error(`API returned ${res.status}: ${res.statusText}`);
     }
     const raw: OpenF1Meeting[] = await res.json();
