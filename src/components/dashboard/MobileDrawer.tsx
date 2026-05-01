@@ -54,12 +54,12 @@ export function MobileDrawer({
         aria-modal="true"
         aria-label={title ?? 'Schedule'}
       >
-        <div className="flex h-14 items-center justify-between border-b border-gray-200 px-4">
-          <span className="text-gray-900">{title ?? 'Schedule'}</span>
+        <div className="flex h-14 items-center justify-between border-b border-zinc-200 px-4">
+          <span className="text-zinc-900">{title ?? 'Schedule'}</span>
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#E10600]"
+            className="rounded-lg p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 focus:outline-none focus:ring-2 focus:ring-[#E10600]"
             aria-label="Close"
           >
             <CloseIcon className="size-5" />

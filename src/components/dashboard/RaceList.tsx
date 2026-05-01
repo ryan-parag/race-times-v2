@@ -35,11 +35,11 @@ export function RaceList({
   collapseLabel?: string;
 }) {
   return (
-    <aside className="flex h-full min-h-0 w-80 shrink-0 flex-col border-r border-gray-200 bg-white">
-      <div className="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-gray-200 px-4 py-4">
+    <aside className="flex h-full min-h-0 w-80 shrink-0 flex-col border-r border-zinc-200 bg-white">
+      <div className="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-zinc-200 px-4 py-4">
         <div className="flex min-w-0 flex-1 items-center gap-2">
-          <ScheduleIcon className="size-5 shrink-0 text-gray-600" />
-          <h2 className="text-lg text-gray-900">Schedule</h2>
+          <ScheduleIcon className="size-5 shrink-0 text-zinc-600" />
+          <h2 className="text-lg text-zinc-900">Schedule</h2>
         </div>
         <div className="flex items-center gap-2">
           <YearSelectorComponent year={year} onYearChange={onYearChange} />
@@ -47,7 +47,7 @@ export function RaceList({
             <button
               type="button"
               onClick={onCollapse}
-              className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#E10600]"
+              className="rounded-lg p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 focus:outline-none focus:ring-2 focus:ring-[#E10600]"
               aria-label={collapseLabel}
               title={collapseLabel}
             >
@@ -69,24 +69,24 @@ export function RaceList({
                   role="option"
                   aria-selected={isActive}
                   className={`cursor-pointer flex w-full items-start gap-3 rounded-lg p-4 text-left transition-colors focus:outline-none focus:ring-2 focus:ring-[#E10600] focus:ring-inset ${
-                    isActive ? 'bg-gray-100' : 'hover:bg-gray-50'
+                    isActive ? 'bg-zinc-100' : 'hover:bg-zinc-50'
                   }`}
                 >
                   {(() => {
                     const { month, day } = formatRaceDate(meeting.dateEnd);
                     return (
-                      <div className="flex shrink-0 flex-col tabular-nums w-14 h-14 overflow-hidden rounded-md border border-gray-200 shadow-xs bg-white">
-                        <span className={`text-xs text-center py-0.5 font-medium uppercase leading-tight ${status === 'completed' ? 'text-gray-500 bg-gray-100' : 'text-red-500 bg-white'}`}>
+                      <div className="flex shrink-0 flex-col tabular-nums w-14 h-14 overflow-hidden rounded-md border border-zinc-200 shadow-xs bg-white">
+                        <span className={`text-xs text-center py-0.5 font-medium uppercase leading-tight ${status === 'completed' ? 'text-zinc-500 bg-zinc-100' : 'text-red-500 bg-white'}`}>
                           {month}
                         </span>
-                        <span className={`h-full flex flex-1 items-center justify-center text-xl leading-tight ${status === 'completed' ? 'text-gray-700' : 'text-gray-950'}`}>
+                        <span className={`h-full flex flex-1 items-center justify-center text-xl leading-tight ${status === 'completed' ? 'text-zinc-700' : 'text-zinc-950'}`}>
                           {day}
                         </span>
                       </div>
                     );
                   })()}
                   <div className="min-w-0 flex-1">
-                    <p className="text-gray-900 truncate">
+                    <p className="text-zinc-900 truncate">
                       {meeting.name}
                     </p>
                     <div className="mt-1">
@@ -96,7 +96,7 @@ export function RaceList({
                       />
                     </div>
                   </div>
-                  <div className="inline-flex relative bg-white rounded-md over-flow-hidden border border-gray-300 shadow-xs">
+                  <div className="inline-flex relative bg-white rounded-md over-flow-hidden border border-zinc-300 shadow-xs">
                     <CountryFlag countryCode={meeting.countryCode} size={20} />
                     <span className="absolute top-0 right-0 left-0 bottom-0 bg-gradient-to-b from-transparent to-white/50"/>
                   </div>

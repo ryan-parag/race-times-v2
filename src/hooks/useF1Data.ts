@@ -4,9 +4,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Meeting, Session } from '@/types/f1';
 import { fetchSessions, getSessionStatus, formatSessionLocalTime } from '@/lib/f1-api';
 
-export function useF1Data(initialMeetings: Meeting[]) {
+export function useF1Data(initialMeetings: Meeting[], initialMeetingKey?: number | null) {
   const [activeMeetingKey, setActiveMeetingKey] = useState<number | null>(
-    initialMeetings[0]?.meetingKey ?? null
+    initialMeetingKey ?? initialMeetings[0]?.meetingKey ?? null
   );
   const [sessionsCache, setSessionsCache] = useState<Record<number, Session[]>>({});
   const [sessionsLoading, setSessionsLoading] = useState<Record<number, boolean>>({});

@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-50 text-gray-900 antialiased isolate font-sans">
+      <body className="min-h-screen bg-zinc-50 text-zinc-900 antialiased isolate font-sans">
         <SidebarProvider>{children}</SidebarProvider>
       </body>
     </html>

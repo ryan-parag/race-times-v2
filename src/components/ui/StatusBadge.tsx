@@ -14,9 +14,9 @@ const variantStyles: Record<
     text: 'text-green-700',
   },
   upcoming: {
-    wrapper: 'text-gray-500',
-    icon: 'text-gray-400',
-    text: 'text-gray-600',
+    wrapper: 'text-zinc-500',
+    icon: 'text-zinc-400',
+    text: 'text-zinc-600',
   },
   next: {
     wrapper: 'text-[#E10600]',
@@ -43,7 +43,7 @@ const DotIcon = () => (
 
 export interface StatusBadgeProps {
   status: StatusBadgeVariant;
-  label: string;
+  label?: string;
   className?: string;
 }
 
@@ -57,7 +57,7 @@ export function StatusBadge({ status, label, className = '' }: StatusBadgeProps)
       {status === 'completed' && <CompletedIcon />}
       {status === 'upcoming' && <ClockIcon />}
       {status === 'next' && <DotIcon />}
-      <span className={styles.text}>{label}</span>
+      {label && <span className={styles.text}>{label}</span>}
     </span>
   );
 }

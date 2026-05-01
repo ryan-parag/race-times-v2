@@ -11,9 +11,11 @@ import { MobileDrawer, MobileDrawerProvider, useMobileDrawer } from './MobileDra
 function DashboardInner({
   initialMeetings,
   year,
+  initialMeetingKey,
 }: {
   initialMeetings: Meeting[];
   year: number;
+  initialMeetingKey?: number | null;
 }) {
   const router = useRouter();
   const { setOpen: setDrawerOpen } = useMobileDrawer();
@@ -25,7 +27,7 @@ function DashboardInner({
     activeSessions,
     sessionsLoading,
     nextSession,
-  } = useF1Data(initialMeetings);
+  } = useF1Data(initialMeetings, initialMeetingKey);
 
   const handleYearChange = (newYear: number) => {
     router.push(`/?year=${newYear}`);
@@ -33,19 +35,20 @@ function DashboardInner({
 
   const handleSelectMeeting = (key: number) => {
     selectMeeting(key);
+    window.history.replaceState(null, '', `/?year=${year}&meeting=${key}`);
     setDrawerOpen(false);
   };
 
   return (
     <>
       {/* Mobile: header with Schedule button */}
-      <div className="flex shrink-0 items-center justify-between gap-2 border-b border-gray-200 bg-white px-4 py-3 md:hidden">
+      <div className="flex shrink-0 items-center justify-between gap-2 border-b border-zinc-200 bg-white px-4 py-3 md:hidden">
         <button
           type="button"
           onClick={() => setDrawerOpen(true)}
-          className="flex items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#E10600]"
+          className="flex items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-medium text-zinc-700 hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-[#E10600]"
         >
-          <ScheduleIcon className="size-5 text-gray-600" />
+          <ScheduleIcon className="size-5 text-zinc-600" />
           Schedule
         </button>
         <YearSelector year={year} onYearChange={handleYearChange} />
@@ -68,7 +71,7 @@ function DashboardInner({
           <RaceList
             meetings={meetings}
             activeMeetingKey={activeMeetingKey}
-            onSelectMeeting={selectMeeting}
+            onSelectMeeting={handleSelectMeeting}
             year={year}
             onYearChange={handleYearChange}
             YearSelectorComponent={YearSelector}
@@ -91,13 +94,15 @@ function DashboardInner({
 export function F1Dashboard({
   initialMeetings,
   year,
+  initialMeetingKey,
 }: {
   initialMeetings: Meeting[];
   year: number;
+  initialMeetingKey?: number | null;
 }) {
   return (
     <MobileDrawerProvider>
-      <DashboardInner initialMeetings={initialMeetings} year={year} />
+      <DashboardInner initialMeetings={initialMeetings} year={year} initialMeetingKey={initialMeetingKey} />
     </MobileDrawerProvider>
   );
 }

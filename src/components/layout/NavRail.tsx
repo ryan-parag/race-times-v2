@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useSidebar } from '@/contexts/SidebarContext';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
@@ -11,21 +12,22 @@ import { Button } from '@base-ui/react/button';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const navItems = [
-  { href: '/', label: 'Schedule', icon: CalendarTodayIcon, active: true },
+  { href: '/', label: 'Schedule', icon: CalendarTodayIcon },
   { href: '/drivers', label: 'Drivers', icon: AccountCircleIcon },
   { href: '/teams', label: 'Teams', icon: WorkspacesIcon },
 ];
 
 export function NavRail() {
   const { navRailExpanded, setNavRailExpanded } = useSidebar();
+  const pathname = usePathname();
 
   return (
     <aside
-      className="fixed left-0 top-0 z-30 flex h-full flex-col border-r border-gray-200 bg-white transition-[width] duration-200 ease-out"
+      className="fixed left-0 top-0 z-30 flex h-full flex-col border-r border-zinc-200 bg-white transition-[width] duration-200 ease-out"
       style={{ width: navRailExpanded ? 200 : 64 }}
       aria-label="Main navigation"
     >
-      <div className="flex h-16 shrink-0 items-center justify-start gap-2 border-b border-gray-200 px-3">
+      <div className="flex h-16 shrink-0 items-center justify-start gap-2 border-b border-zinc-200 px-3">
         <Link
           href="/"
           className={`flex items-center gap-2 overflow-hidden ${!navRailExpanded ? 'justify-center' : 'justify-start'}`}
@@ -33,12 +35,14 @@ export function NavRail() {
         >
           <F1Logo className="size-9 shrink-0" />
           {navRailExpanded && (
-            <span className="whitespace-nowrap text-base font-medium text-gray-900">Race Times</span>
+            <span className="whitespace-nowrap text-base font-medium text-zinc-900">Race Times</span>
           )}
         </Link>
       </div>
       <nav className="flex flex-1 flex-col gap-1 p-2 pt-4">
-        {navItems.map(({ href, label, icon: Icon, active }) => (
+        {navItems.map(({ href, label, icon: Icon }) => {
+          const active = href === '/' ? pathname === '/' : pathname.startsWith(href);
+          return (
           <Link
             key={href}
             href={href}
@@ -46,8 +50,8 @@ export function NavRail() {
               navRailExpanded ? 'flex-row' : 'flex-col justify-center'
             } ${
               active
-                ? 'bg-gray-200 text-gray-900'
-                : 'text-gray-700 hover:bg-gray-100 hover:text-gray-700'
+                ? 'bg-zinc-200 text-zinc-900'
+                : 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-700'
             }`}
             aria-current={active ? 'page' : undefined}
             title={!navRailExpanded ? label : undefined}
@@ -55,22 +59,23 @@ export function NavRail() {
             <Icon className="size-4 shrink-0" />
             {navRailExpanded && <span className="whitespace-nowrap">{label}</span>}
           </Link>
-        ))}
+          );
+        })}
       </nav>
-      <div className="border-t border-gray-200 p-2">
+      <div className="border-t border-zinc-200 p-2">
         <Button
           variant="ghost"
           onClick={() => setNavRailExpanded(!navRailExpanded)}
-          className="transiton cursor-pointer absolute top-4 -right-4 rounded-full w-8 h-8 inline-flex items-center justify-center bg-white border-gray-100 shadow-sm z-10 hover:bg-gray-100 text-gray-500 hover:text-gray-800"
+          className="transiton cursor-pointer absolute top-4 -right-4 rounded-full w-8 h-8 inline-flex items-center justify-center bg-white border-zinc-100 shadow-sm z-10 hover:bg-zinc-100 text-zinc-500 hover:text-zinc-800"
           aria-label={navRailExpanded ? 'Collapse navigation' : 'Expand navigation'}
         >
-          <ExpandCircleDownIcon expanded={navRailExpanded} className={`transition ${navRailExpanded ? 'rotate-90' : '-rotate-90'}`} />
+          <ExpandCircleDownIcon className={`transition ${navRailExpanded ? 'rotate-90' : '-rotate-90'}`} />
         </Button>
         <a
           href="https://github.com"
           target="_blank"
           rel="noopener noreferrer"
-          className={`flex items-center gap-3 rounded-lg px-2 py-3 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-800 ${
+          className={`flex items-center gap-3 rounded-lg px-2 py-3 text-sm text-zinc-600 hover:bg-zinc-100 hover:text-zinc-800 ${
             navRailExpanded ? 'flex-row' : 'flex-col justify-center'
           }`}
           aria-label="GitHub"

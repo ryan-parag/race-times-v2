@@ -4,19 +4,20 @@ import { NavRail } from '@/components/layout/NavRail';
 import { ContentArea } from '@/components/layout/ContentArea';
 
 type PageProps = {
-  searchParams: Promise<{ year?: string }>;
+  searchParams: Promise<{ year?: string; meeting?: string }>;
 };
 
 export default async function Home({ searchParams }: PageProps) {
   const params = await searchParams;
   const year = Math.min(2026, Math.max(2024, parseInt(params.year ?? '2025', 10) || 2025));
   const meetings = await fetchMeetings(year);
+  const initialMeetingKey = params.meeting ? parseInt(params.meeting, 10) || null : null;
 
   return (
     <>
       <NavRail />
       <ContentArea>
-        <F1Dashboard key={year} initialMeetings={meetings} year={year} />
+        <F1Dashboard key={year} initialMeetings={meetings} year={year} initialMeetingKey={initialMeetingKey} />
       </ContentArea>
     </>
   );

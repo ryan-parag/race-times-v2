@@ -59,3 +59,30 @@ export interface Session {
 }
 
 export type SessionStatus = 'completed' | 'upcoming' | 'next';
+
+export interface SessionResult {
+  position: number;
+  driverNumber: number;
+  driverName: string;
+  teamName: string;
+  teamColor: string;
+  acronym: string;
+}
+
+export interface Driver {
+  driverNumber: number;
+  acronym: string;
+  broadcastName: string;
+  fullName: string;
+  firstName: string;
+  lastName: string;
+  headshotUrl: string | null;
+  teamName: string;
+  teamColor: string;
+}
+
+export interface Team {
+  name: string;
+  color: string;
+  drivers: Driver[];
+}

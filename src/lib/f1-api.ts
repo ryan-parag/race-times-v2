@@ -3,7 +3,29 @@
  * Use in Server Components for initial list; use useF1Data in Client Components for sessions + active state.
  */
 
-import type { OpenF1Meeting, OpenF1Session, Meeting, Session } from '@/types/f1';
+import type { OpenF1Meeting, OpenF1Session, Meeting, Session, SessionResult, Driver, Team } from '@/types/f1';
+
+interface OpenF1Position {
+  date: string;
+  driver_number: number;
+  meeting_key: number;
+  position: number;
+  session_key: number;
+}
+
+interface OpenF1Driver {
+  acronym: string;
+  broadcast_name: string;
+  driver_number: number;
+  first_name: string;
+  full_name: string;
+  headshot_url: string | null;
+  last_name: string;
+  meeting_key: number;
+  session_key: number;
+  team_colour: string;
+  team_name: string;
+}
 
 const OPENF1_BASE = 'https://api.openf1.org/v1';
 
@@ -59,6 +81,74 @@ export async function fetchSessions(
     .sort(
       (a, b) => new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime()
     );
+}
+
+export async function fetchSessionResults(sessionKey: number): Promise<SessionResult[]> {
+  const [posRes, drvRes] = await Promise.all([
+    fetch(`${OPENF1_BASE}/position?session_key=${sessionKey}`),
+    fetch(`${OPENF1_BASE}/drivers?session_key=${sessionKey}`),
+  ]);
+  if (!posRes.ok || !drvRes.ok) return [];
+  const positions: OpenF1Position[] = await posRes.json();
+  const drivers: OpenF1Driver[] = await drvRes.json();
+
+  // Keep only the last recorded position per driver
+  const lastByDriver = new Map<number, OpenF1Position>();
+  for (const p of positions) {
+    lastByDriver.set(p.driver_number, p);
+  }
+
+  const driverMap = new Map(drivers.map((d) => [d.driver_number, d]));
+
+  return Array.from(lastByDriver.values())
+    .sort((a, b) => a.position - b.position)
+    .map((p) => {
+      const d = driverMap.get(p.driver_number);
+      return {
+        position: p.position,
+        driverNumber: p.driver_number,
+        driverName: d?.broadcast_name ?? `#${p.driver_number}`,
+        teamName: d?.team_name ?? '',
+        teamColor: d?.team_colour ? `#${d.team_colour}` : '#888888',
+        acronym: d?.acronym ?? String(p.driver_number),
+      };
+    });
+}
+
+export async function fetchDrivers(meetingKey: number): Promise<Driver[]> {
+  const res = await fetch(`${OPENF1_BASE}/drivers?meeting_key=${meetingKey}`, {
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) return [];
+  const raw: OpenF1Driver[] = await res.json();
+  const map = new Map<number, OpenF1Driver>();
+  for (const d of raw) {
+    map.set(d.driver_number, d);
+  }
+  return Array.from(map.values())
+    .map((d) => ({
+      driverNumber: d.driver_number,
+      acronym: d.acronym,
+      broadcastName: d.broadcast_name,
+      fullName: d.full_name,
+      firstName: d.first_name,
+      lastName: d.last_name,
+      headshotUrl: d.headshot_url,
+      teamName: d.team_name,
+      teamColor: d.team_colour ? `#${d.team_colour}` : '#888888',
+    }))
+    .sort((a, b) => a.driverNumber - b.driverNumber);
+}
+
+export function groupDriversByTeam(drivers: Driver[]): Team[] {
+  const map = new Map<string, Team>();
+  for (const driver of drivers) {
+    if (!map.has(driver.teamName)) {
+      map.set(driver.teamName, { name: driver.teamName, color: driver.teamColor, drivers: [] });
+    }
+    map.get(driver.teamName)!.drivers.push(driver);
+  }
+  return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function getSessionStatus(
