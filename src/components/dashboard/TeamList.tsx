@@ -75,7 +75,7 @@ function TeamLogo({
   if (logoUrl) {
     return (
       <div
-        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-100 overflow-hidden relative`}
+        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-zinc-100 overflow-hidden relative`}
         style={{ backgroundColor: color }}
         >
         <Image
@@ -83,7 +83,7 @@ function TeamLogo({
           alt={name}
           width={24}
           height={24}
-          className="h-7 w-7 object-contain relative z-10"
+          className="h-6 w-6 object-contain relative z-10"
           unoptimized
           onError={(e) => {
             const target = e.currentTarget as HTMLImageElement;
@@ -99,7 +99,7 @@ function TeamLogo({
     );
   }
   return (
-    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-zinc-100">
+    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-100">
       <GroupWorkIcon className="h-5 w-5 text-zinc-400" fontSize="small" />
     </div>
   );

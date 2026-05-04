@@ -12,6 +12,8 @@ export function DriverDetail({ driver }: { driver: Driver | null }) {
     );
   }
 
+  console.log(driver)
+
   return (
     <main className="relative flex min-h-0 flex-1 flex-col overflow-auto bg-zinc-50">
       <div className="relative flex flex-col p-6 md:p-8">

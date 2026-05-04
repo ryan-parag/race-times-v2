@@ -22,7 +22,10 @@ export function TeamDetail({ team }: { team: Team | null }) {
             {(() => {
               const logoUrl = getTeamLogoUrl(team.name);
               return logoUrl ? (
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white border border-zinc-200 overflow-hidden">
+                <div
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-zinc-200 overflow-hidden`}
+                  style={{ backgroundColor: team.color }}
+                >
                   <Image
                     src={logoUrl}
                     alt={team.name}
